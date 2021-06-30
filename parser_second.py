@@ -27,7 +27,7 @@ def content(rez):
         for key in test:
             print(key)
             rel.append( {"address": key["address"],
-                         "latlon":f"{key['latitude']}{key['longitude']}",
+                         "latlon":f"{key['latitude']} {key['longitude']}",
                          "name":key['name'],
                          "phones":key['phone'],
                          "working_hours":key['hoursOfOperation']
