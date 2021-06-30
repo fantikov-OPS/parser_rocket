@@ -14,31 +14,30 @@ def id_city(rez):
 
     return rez
 
-rez=[]
-id_city(rez)
-rez=id_city(rez)
-# print(rez)
+
+
 
 def content(rez):
-
+    rel = []
     for i in rez:
         response=requests.get(f"https://apigate.tui.ru/api/office/list?subwayId=&hoursFrom=&hoursTo=&serviceIds=all&toBeOpenOnHolidays=false&cityId={i}")
         todos = json.loads(response.text)
         test = (todos['offices'])
-        print(test)
-        rel = []
-        for r in range(len(todos['offices'])):
-            rel.append(
-                {
-                    "address": test[r]['address'],
-                    "latlon": f"{test[r]['latitude']}, {test[r]['longitude']}",
-                    "name": test[r]['name'],
-                    "phones": test[r]['phone'],
-                    # "working_hours": f"пн-пт{test[r]['startStr']}-{test[r]['endStr']}, сб-вс {test[r]['startStr']} {test[r]['endStr']}"
-                }
-            )
 
-            print (rel)
+        for key in test:
+            print(key)
+            rel.append( {"address": key["address"],
+                         "latlon":f"{key['latitude']}{key['longitude']}",
+                         "name":key['name'],
+                         "phones":key['phone'],
+                         "working_hours":key['hoursOfOperation']
+                         })
+
+    with open('second.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(rel, indent=4, ensure_ascii=False))
 
 
+rez=[]
+id_city(rez)
+rez=id_city(rez)
 content(rez)
